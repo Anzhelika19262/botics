@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Button fx:id="button" text="Click me!" />
+        <Label fx:id="label" prefHeight="214.0" prefWidth="349.0" text="Hello, JavaFX!" />
+    </children>
+</StackPane>
