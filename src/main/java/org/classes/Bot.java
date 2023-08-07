@@ -1,14 +1,21 @@
+package org.classes;
+import lombok.*;
 import lombok.Getter;
+
+import org.telegram.*;
+import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot;
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.helpCommand.HelpCommand;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-
-
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import java.util.HashMap;
 import java.util.Map;
 
+
+
+//
 public final class Bot extends TelegramLongPollingCommandBot {
     private final String BOT_NAME;
     private final String BOT_TOKEN;
@@ -18,17 +25,19 @@ public final class Bot extends TelegramLongPollingCommandBot {
 
     @Getter
     private static Map<Long, Settings> userSettings;
+    private NonCommand nonCommand;
 
     public Bot(String botName, String botToken) {
         super();
         this.BOT_NAME = botName;
         this.BOT_TOKEN = botToken;
         //создаём вспомогательный класс для работы с сообщениями, не являющимися командами
-        this.nonCommand = new NonCommand();
+        this.nonCommand = new NonCommand();//NonCommand создан без реализации
         //регистрируем команды
-        register(new StartCommand("start", "Старт"));
-        register(new HelpCommand("help","Помощь"));
-        userSettings = new HashMap<>();
+        //register(new StartCommand("start", "Старт"));//Не находит StartCommand
+        //register(new HelpCommand("help","Помощь"));
+        //Я так понял мы позже должны будем написать эти функции
+        userSettings = new HashMap<Long, Settings>();
     }
 
     @Override
@@ -44,11 +53,12 @@ public final class Bot extends TelegramLongPollingCommandBot {
     public void processNonCommandUpdate(Update update) {
         Message msg = update.getMessage();
         Long chatId = msg.getChatId();
-        String userName = getUserName(msg);
+        String userName = "Joe"; //getUsername(msg);//Функции нет
 
-        String answer = nonCommand.nonCommandExecute(chatId, userName, msg.getText());
+        String answer = nonCommand.nonCommandExecute(chatId, userName, msg.getText());//nonCommand не найдена
         setAnswer(chatId, userName, answer);
     }
+    //Settings нужно создать
     public static Settings getUserSettings(Long chatId) {
         Map<Long, Settings> userSettings = Bot.getUserSettings();
         Settings settings = userSettings.get(chatId);
@@ -65,7 +75,7 @@ public final class Bot extends TelegramLongPollingCommandBot {
         try {
             execute(answer);
         } catch (TelegramApiException e) {
-            // ....
+            System.out.println("Error executing answer:" + e.getMessage());
         }
     }
 }
