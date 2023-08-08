@@ -5,8 +5,12 @@ public class Main {
         boolean onGUI = true;
         for (String arg : args) {
             System.out.println("Arg: " + arg);
-            onGUI = !arg.toLowerCase().equals("nogui");
         }
+        if (args.length >= 2)
+        {
+            Bot tgBot = new Bot(args[0],args[1]);
+        }
+
         System.out.println(String.format("Args length: %d", args.length));
         if (onGUI) {
             //Start window
