@@ -34,8 +34,8 @@ public final class Bot extends TelegramLongPollingCommandBot {
         //создаём вспомогательный класс для работы с сообщениями, не являющимися командами
         this.nonCommand = new NonCommand();//NonCommand создан без реализации
         //регистрируем команды
-        //register(new StartCommand("start", "Старт"));//Не находит StartCommand
-        //register(new HelpCommand("help","Помощь"));
+        register(new StartCommand("start", "Старт"));//Не находит StartCommand
+        register(new HelpCommand("help","Помощь"));
         //Я так понял мы позже должны будем написать эти функции
         userSettings = new HashMap<Long, Settings>();
     }
